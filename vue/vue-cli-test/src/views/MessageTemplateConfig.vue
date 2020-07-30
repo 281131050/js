@@ -1,6 +1,6 @@
 <template>
   <div>
-      hello module hi
+      hello module hi11
   </div>
 </template>
 
