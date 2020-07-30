@@ -1,0 +1,43 @@
+<div id="app">
+    A{{msg}}
+    <my-button :msg="msg"></my-button>
+  </div>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '100'
+      },
+      mounted () {
+        console.log(this.$parent, '父') // 没有父组件
+        console.log(this.$children, '子') // 99组件
+      },
+      components: {
+        'MyButton': {
+          template: `<div>B<my-radio></my-radio></div>`,
+          data () {
+            return {
+              msg: '99'
+            }
+          },
+          mounted () {
+            console.log(this.$parent, '父') // 100组件
+            console.log(this.$children, '子') // 88组件
+          },
+          components: {
+            'MyRadio': {
+              template: `<div>C</div>`,
+              data () {
+                return {
+                  msg: '88'
+                }
+              },
+            },
+          },
+        },
+      }
+    })
+  </script>

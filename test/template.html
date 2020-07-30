@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>示例</title>
+
+</head>
+
+<body>
+
+    <div id="box">
+        <h3>链接支持</h3>
+    </div>
+
+    <template id="temp">
+        <dl>
+            <dt></dt>
+            <dd><a href=""></a></dd>
+        </dl>
+    </template>
+
+    <script>
+
+        //这里通过content来判断浏览器是否支持template标签
+        if ('content' in document.createElement('template')) {
+            debugger
+            var temp = document.getElementById('temp'),
+                dt = temp.content.querySelector("dt"),
+                a = temp.content.querySelector("a");
+                dt.textContent = "慕课网",
+                a.textContent = "去学习",
+                a.href = "http://www.imooc.com";
+
+            var box = document.getElementById("box");
+            var clone = document.importNode(temp.content, true);
+            box.appendChild(clone);
+
+            dt.textContent = "百度一下";
+            a.textContent = "去搜索";
+            a.href = "http://www.baidu.com";
+            var clone2 = document.importNode(temp.content, true);
+            box.appendChild(clone2);
+        }
+
+
+    </script>
+
+</body>
+
+</html>
