@@ -5,7 +5,7 @@
       <template v-for="item in subMenus">
         <Submenu :name="item.menuId" :key="item.name">
           <template slot="title">
-            <Icon :type="item.remark" ></Icon>
+            <Icon :type="item.remark"></Icon>
             <span class="layout-text">{{item.title}}</span>
           </template>
           <template v-for="child in item.childMenus">
@@ -15,7 +15,7 @@
               :class="{'ivu-menu-item-active' :$route.path == child.address}"
             >
               <router-link class="rotuer-link-sub" :to="child.address" :key="child.menuId">
-                <Icon :type="child.remark" ></Icon>
+                <Icon :type="child.remark"></Icon>
                 <span class="layout-text">{{child.title}}</span>
               </router-link>
             </MenuItem>
@@ -30,11 +30,26 @@
 
 <script>
 /* eslint-disable */
+
 export default {
   name: "App",
   data() {
     return {
-      subMenus: [
+      subMenus: [],
+      theme3: "light",
+    };
+  },
+  created() {
+    //菜单赋值
+    this.subMenus = this.getMenus();
+    let pages = this.getPages(this.subMenus);
+    // 给菜单设置路由信息
+    this.$router.initRouter(pages);
+  },
+  methods: {
+    //获取菜单方法 可调用后端获取菜单
+    getMenus() {
+      return [
         {
           menuId: 106643,
           name: "refundMonitor",
@@ -113,9 +128,21 @@ export default {
             },
           ],
         },
-      ],
-       theme3: 'light'
-    };
+      ];
+    },
+    getPages: function (menus) {
+      var pages = [];
+      if (menus && menus.length > 0) {
+        for (var i = 0; i < menus.length; i++) {
+          if (!menus[i].childMenus || menus[i].childMenus.length === 0) {
+            pages.push(menus[i]);
+          } else {
+            pages = pages.concat(this.getPages(menus[i].childMenus));
+          }
+        }
+      }
+      return pages;
+    },
   },
 };
 </script>
@@ -129,5 +156,4 @@ export default {
   color: #2c3e50;
   margin-top: 0px;
 }
-
 </style>
